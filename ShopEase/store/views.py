@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from .models import Product
 from django.contrib.auth import authenticate, login, logout
-from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from .forms import SignUpForm
+from django import forms
 
 # Define the 'home' view to display products on the homepage
 def home(request):
@@ -17,7 +18,23 @@ def about(request):
 
 # Define the 'register_user' view to handle user registration and render the registration page
 def register_user(request):
-    return render(request, 'register.html', {})
+    form = SignUpForm()
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            # Log in the user
+            user = authenticate(username=username, password = password)
+            login(request, user)
+            messages.success(request, ("You've registered successfully! Karibu!"))
+            return redirect('home')
+        else:
+            messages.success(request, ("Oops! There's an issue with your registration, please try again.."))
+            return redirect('register')
+    else:
+        return render(request, 'register.html', {})
 
 # Define the 'login_user' view to handle user login and render the login page
 def login_user(request):
