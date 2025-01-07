@@ -12,6 +12,10 @@ def home(request):
 def about(request):
     return render(request, 'about.html', {})
 
+# Define the 'register_user' view to handle user registration and render the registration page
+def register_user(request):
+    return render(request, 'register.html', {})
+
 # Define the 'login_user' view to handle user login and render the login page
 def login_user(request):
     # Check if the request method is POST (indicating form submission)
