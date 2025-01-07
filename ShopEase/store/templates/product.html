@@ -12,7 +12,8 @@
               <div class="card-body">
                 <center>
                 <h5 class="card-title">{{ product.name }}</h5>
-                <p class="card-text">{{ product.description }}</p>
+                <br/>
+                <p class="card-text justified">{{ product.description }}</p>
                 {% if product.is_on_sale %}
 
                     <!-- Sale stars -->
@@ -29,6 +30,7 @@
                 {% else %}
                     KES{{ product.price }}
                 {% endif %}
+                <br/><br/>
                 <a href="{% url 'home' %}" class="btn btn-secondary">Home</a>
                 </center>
               </div>
@@ -36,6 +38,6 @@
           </div>
         </div>
 </div>
-<br/><br/><br/><br/><br/><br/><br/><br/>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 
 {% endblock %}
