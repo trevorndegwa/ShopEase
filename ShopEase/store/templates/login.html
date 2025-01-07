@@ -14,8 +14,26 @@
             <div class="row">
                 <center>
                     <div class="col-8">
-                        Form
+
                         <br/><br/>
+
+<form method="POST" action="{% url 'login' %}">
+  <!-- Username Input Field -->
+  <div class="mb-3">
+    <label for="username" class="form-label">Username</label>
+    <input type="text" class="form-control" name="username" placeholder="Enter your username">
+  </div>
+
+  <!-- Password Input Field -->
+  <div class="mb-3">
+    <label for="password" class="form-label">Password</label>
+    <input type="password" class="form-control" name="password" placeholder="Enter your password">
+  </div>
+  <br/><br/>
+  
+  <!-- Submit Button -->
+  <button type="submit" class="btn btn-secondary">Login</button>
+</form>
 <br/><br/>
 <br/><br/>
 <br/><br/>
