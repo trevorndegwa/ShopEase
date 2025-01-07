@@ -1,16 +1,6 @@
 from django.db import models
 import datetime
 
-# Product categories
-class Category(models.Model):
-    name = models.CharField(max_length=75)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = 'categories'
-
 # Customer model
 class Customer(models.Model):
     first_name = models.CharField(max_length=75)
@@ -21,6 +11,16 @@ class Customer(models.Model):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
+
+# Product categories
+class Category(models.Model):
+    name = models.CharField(max_length=75)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = 'categories'
 
 # Entirety of our products
 class Product(models.Model):
