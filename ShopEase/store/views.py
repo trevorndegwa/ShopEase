@@ -34,7 +34,7 @@ def register_user(request):
             messages.success(request, ("Oops! There's an issue with your registration, please try again.."))
             return redirect('register')
     else:
-        return render(request, 'register.html', {})
+        return render(request, 'register.html', {'form':form})
 
 # Define the 'login_user' view to handle user login and render the login page
 def login_user(request):
