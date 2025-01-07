@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Product
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -12,10 +12,27 @@ def home(request):
 def about(request):
     return render(request, 'about.html', {})
 
-# Define the 'login_user' view to render the login page
+# Define the 'login_user' view to handle user login and render the login page
 def login_user(request):
-    return render(request, 'login.html', {})
+    # Check if the request method is POST (indicating form submission)
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        # If authentication is successful, log the user in
+        if user is not None:
+            login(request, user)
+            messages.success(request, ("You've been logged in"))
+            return redirect('home')
+        else:
+            # If authentication fails, display an error message
+            messages.success(request, ("There's a problem, please try again")) 
+            return redirect('login')
+    else:
+        return render(request, 'login.html', {}) 
 
-# Define the 'logout_user' view to render the logout page
+# Define the 'logout_user' view to handle user logout
 def logout_user(request):
-    pass
+    logout(request)
+    messages.success(request, ("You've been logged out"))
+    return redirect('home')

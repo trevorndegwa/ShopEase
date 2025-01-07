@@ -18,6 +18,7 @@
                         <br/><br/>
 
 <form method="POST" action="{% url 'login' %}">
+    {% csrf_token %}
   <!-- Username Input Field -->
   <div class="mb-3">
     <label for="username" class="form-label">Username</label>
