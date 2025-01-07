@@ -65,6 +65,8 @@
 
                     <div class="col mb-5">
                         <div class="card h-100">
+                            <!-- Sales badge-->
+                            <div class="badge bg-dark text-warning position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
                             <!-- Product image-->
                             <img class="card-img-top" src="{{ product.image.url }}" alt="..." />
                             <!-- Product details-->
@@ -72,6 +74,12 @@
                                 <div class="text-center">
                                     <!-- Product name-->
                                     <h5 class="fw-bolder">{{ product.name }}</h5>
+                                    <!-- Sale stars -->
+                                    <div class="d-flex justify-content-center small text-warning mb-2" style="background-color: black; padding: 0.5rem; border-radius: 0.25rem;">
+                                    <div class="bi-star-fill"></div>
+                                    &nbsp;&nbsp;Sale!&nbsp;&nbsp;
+                                    <div class="bi-star-fill"></div>
+                                    </div>
                                     <!-- Product price-->
                                     <strike>KES{{ product.price }}</strike>
                                     &nbsp;
