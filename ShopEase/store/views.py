@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Product
+from .models import Product, Category
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -8,9 +8,23 @@ from .forms import SignUpForm
 from django import forms
 
 
+# Define the 'product' view to display details of a specific product
 def product(request,pk):
     product = Product.objects.get(id=pk)
     return render(request, 'product.html', {'product':product})
+
+def category(request, filler):
+    # Hyphens substituted with empty spaces
+    filler = filler.replace('-', ' ')
+    # Obtain the category from the url
+    try:
+       # Search the category
+       category = Category.objects.get(name=filler)
+       products = Product.objects.filter(category=category)
+       return render(request, 'category.html', {'products':products, 'category':category})
+    except:
+        messages.success(request, ("That category doesn't exist"))
+        return redirect('home')
 
 # Define the 'home' view to display products on the homepage
 def home(request):
