@@ -29,9 +29,13 @@
 
                 {% else %}
                     KES{{ product.price }}
+                    <br/>ID: {{ product.id }}
                 {% endif %}
                 <br/><br/>
+                <!-- Home button-->
                 <a href="{% url 'home' %}" class="btn btn-secondary">Home</a>
+                <!-- Add-to-cart button-->
+                <button type="button" class="btn btn-secondary" value="{{ product.id }}" id="add-cart" >Add to cart</button>
                 </center>
               </div>
             </div>
@@ -40,4 +44,35 @@
 </div>
 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 
+<script>
+// Assess if the button is pressed
+// Event listener to detect a click on the element with ID 'add-cart'
+$(document).on('click', '#add-cart', function(e){
+    // Prevent the default action from occuring
+    e.preventDefault();
+
+    // Make an AJAX POST request to the server
+    $.ajax({
+       type: 'POST',
+       url: '{% url 'cart_add' %}',
+       data: {
+           product_id: $('#add-cart').val(),
+           csrfmiddlewaretoken: '{{ csrf_token }}',
+           action: 'post'
+       },
+       // Callback function to handle a successful response
+       success: function(json){
+           console.log(json)
+       },
+       // Callback function to handle errors if the request fails
+       error: function(xhr, errmsg, err){
+
+       }
+
+    });
+
+
+})
+
+</script>
 {% endblock %}
