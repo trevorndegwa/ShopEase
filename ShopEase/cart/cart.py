@@ -11,3 +11,6 @@ class Cart():
 
         # Ensure the cart is available on all site pages
         self.cart = cart
+
+def add(self, product):
+    product_id = str(product_id)
