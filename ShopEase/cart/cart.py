@@ -1,3 +1,5 @@
+from store.models import Product
+
 
 class Cart():
     def __init__(self, request):
@@ -27,3 +29,10 @@ class Cart():
             self.cart[product_id] = {'price': str(product.price)}
         # Mark the session as modified to ensure changes to the cart are saved
         self.session.modified = True
+
+    def get_products(self):
+        # Get the product ids from cart
+        product_ids = self.cart.keys()
+        # Use ids to check product in the db model
+        products = Product.objects.filter(id__in=product_ids)
+        return products

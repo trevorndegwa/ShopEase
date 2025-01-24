@@ -10,5 +10,51 @@
                 </div>
             </div>
         </header>
+        <br/>
+        <div class="container">
+            {% for product in cart_products %}
+                
+		<div class="container">
+		<br/>
+			<div class="card mb-3">
+			  <div class="row g-0">
+			    <div class="col-md-4">
+			      <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
+			    </div>
+			    <div class="col-md-8">
+			      <div class="card-body">
+				<center>
+				<h5 class="card-title">{{ product.name }}</h5>
+				<br/>
+				<p class="card-text justified">{{ product.description }}</p>
+				{% if product.is_on_sale %}
+
+				    <!-- Sale stars -->
+				    <div class="d-flex justify-content-center small text-warning mb-2" style="background-color: black; padding: 0.5rem; border-radius: 0.25rem;">
+				    <div class="bi-star-fill"></div>
+				    &nbsp;&nbsp;Sale!&nbsp;&nbsp;
+				    <div class="bi-star-fill"></div>
+				    </div>
+				    <!-- Product price-->
+				    <strike>KES{{ product.price }}</strike>
+				    &nbsp;
+				    KES{{ product.sale_price }}
+
+				{% else %}
+				    KES{{ product.price }}
+				    <br/>ID: {{ product.id }}
+				{% endif %}
+				<br/><br/>
+				<!-- Home button-->
+				<a href="{% url 'home' %}" class="btn btn-secondary">Home</a>
+				
+				</center>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+		</div>
+            {% endfor %}
+        </div> 
 <br/><br/><br/><br/><br/><br/><br/>
 {% endblock %}
