@@ -12,6 +12,7 @@
         </header>
         <br/>
         <div class="container">
+        {% if cart_products %}
             {% for product in cart_products %}
                 
 		<div class="container">
@@ -42,7 +43,7 @@
 
 				{% else %}
 				    KES{{ product.price }}
-				    <br/>ID: {{ product.id }}
+				    <br/>
 				{% endif %}
 				<br/><br/>
 				<!-- Home button-->
@@ -55,6 +56,10 @@
 			</div>
 		</div>
             {% endfor %}
+            {% else %}
+            Nada in your cart  :\
+            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+        {% endif %}
         </div> 
 <br/><br/><br/><br/><br/><br/><br/>
 {% endblock %}
