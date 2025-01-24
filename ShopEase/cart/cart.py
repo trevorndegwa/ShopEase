@@ -12,6 +12,10 @@ class Cart():
         # Ensure the cart is available on all site pages
         self.cart = cart
 
+    def __len__(self):
+        # Return the total number of items in the cart
+        return len(self.cart)
+
     def add(self, product):
         # Convert the product ID to a string to use it as a key in the cart dictionary
         product_id = str(product.id)
