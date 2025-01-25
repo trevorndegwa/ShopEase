@@ -77,7 +77,8 @@ $(document).on('click', '#add-cart', function(e){
        // Callback function to handle a successful response
        success: function(json){
            //console.log(json)
-           document.getElementById("cart_number").textContent = json.num      
+           document.getElementById("cart_number").textContent = json.num
+           location.reload(); 
        },
        // Callback function to handle errors if the request fails
        error: function(xhr, errmsg, err){
