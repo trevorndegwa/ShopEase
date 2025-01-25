@@ -15,11 +15,15 @@ class Cart():
         self.cart = cart
 
     def __len__(self):
-        # Return the total number of items in the cart
+        """
+        Return the total number of items in the cart
+        """
         return len(self.cart)
 
     def add(self, product, quantity):
-        # Convert the product ID and qty to strings to use them
+        """
+        Convert the product ID and qty to strings to use them
+        """
         product_id = str(product.id)
         product_quantity = str(quantity)
     
@@ -31,6 +35,23 @@ class Cart():
             self.cart[product_id] = int(product_quantity)
         # Mark the session as modified to ensure changes to the cart are saved
         self.session.modified = True
+    
+    def update(self, product, quantity):
+        """
+        Update the quantity of a specific product in the cart
+        """
+        product_id = str(product)
+        product_quantity = int(quantity)
+        
+        # Get cart session
+        mycart = self.cart
+        # Make our cart/dictionary up-to-date
+        mycart[product_id] = product_quantity
+        # Mark the session as modified to ensure changes are saved
+        self.session.modified = True
+
+        check = self.cart
+        return check
 
     def get_products(self):
         # Get the product ids from cart
