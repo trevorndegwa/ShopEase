@@ -85,7 +85,7 @@
 <br/><br/><br/><br/><br/><br/><br/>
 
 <script>
-
+// Update cart
 $(document).on('click', '.update-cart', function(e){
     // Prevent the default action from occuring
     e.preventDefault();
@@ -111,6 +111,36 @@ $(document).on('click', '.update-cart', function(e){
        error: function(xhr, errmsg, err){
            console.error(`Error: ${errmsg}`);
            alert("Failed to update the cart. Please try again.");
+       }
+
+    });
+
+
+})
+
+// Remove from cart
+$(document).on('click', '.remove-product', function(e){
+    // Prevent the default action from occuring
+    e.preventDefault();
+    // Get the product ID
+    var productID = $(this).data('index');
+
+    // Make an AJAX POST request to the server
+    $.ajax({
+       type: 'POST',
+       url: '{% url 'cart_delete' %}',
+       data: {
+           product_id: productID,
+           csrfmiddlewaretoken: '{{ csrf_token }}',
+           action: 'post'
+       },
+       // Callback function to handle a successful response
+       success: function(json){
+           location.reload();      
+       },
+       // Callback function to handle errors if the request fails
+       error: function(xhr, errmsg, err){
+           
        }
 
     });
