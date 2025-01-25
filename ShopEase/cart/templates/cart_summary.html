@@ -81,22 +81,23 @@
         {% endif %}
         </div> 
 <br/><br/><br/><br/><br/><br/><br/>
-{% endblock %}
 
 <script>
+
 $(document).on('click', '.update-cart', function(e){
     // Prevent the default action from occuring
     e.preventDefault();
     // Get the product ID
     var productID = $(this).data('index');
-
+    // Get the selected quantity from the dropdown
+    var selectedQuantity = $('#select' + productID + ' option:selected').text();
     // Make an AJAX POST request to the server
     $.ajax({
        type: 'POST',
        url: '{% url 'cart_update' %}',
        data: {
-           product_id: $(this).data('index'),
-           product_quantity: $('#select' + productID + 'option:selected').text(),
+           product_id: productID,
+           product_quantity: selectedQuantity,
            csrfmiddlewaretoken: '{{ csrf_token }}',
            action: 'post'
        },
@@ -106,7 +107,8 @@ $(document).on('click', '.update-cart', function(e){
        },
        // Callback function to handle errors if the request fails
        error: function(xhr, errmsg, err){
-
+           console.error(`Error: ${errmsg}`);
+           alert("Failed to update the cart. Please try again.");
        }
 
     });
@@ -115,3 +117,5 @@ $(document).on('click', '.update-cart', function(e){
 })
 
 </script>
+
+{% endblock %}
