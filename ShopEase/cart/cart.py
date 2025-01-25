@@ -73,3 +73,20 @@ class Cart():
     def get_quantities(self):
         quantities = self.cart
         return quantities
+
+    def cart_total(self):
+        # Derive the product IDs
+        product_ids = self.cart.keys()
+        # Find products in db using the ids
+        products = Product.objects.filter(id__in=product_ids)
+        # Get the qties
+        quantities = self.cart
+        # Begin the count from 0
+        total = 0
+        for key, value in quantities.items():
+            # Convert the string for key into int for computation
+            key = int(key)
+            for product in products:
+                if product.id == key:
+                   total = total + (product.price * value)
+        return total
