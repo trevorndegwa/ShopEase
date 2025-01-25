@@ -18,15 +18,17 @@ class Cart():
         # Return the total number of items in the cart
         return len(self.cart)
 
-    def add(self, product):
-        # Convert the product ID to a string to use it as a key in the cart dictionary
+    def add(self, product, quantity):
+        # Convert the product ID and qty to strings to use them
         product_id = str(product.id)
-            
+        product_quantity = str(quantity)
+    
         # Control logic checking if product exists within the cart
         if product_id in self.cart:
             pass
         else:
             self.cart[product_id] = {'price': str(product.price)}
+            self.cart[product_id] = int(product_quantity)
         # Mark the session as modified to ensure changes to the cart are saved
         self.session.modified = True
 
