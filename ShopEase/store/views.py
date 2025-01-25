@@ -14,7 +14,8 @@ def product(request,pk):
     return render(request, 'product.html', {'product':product})
 
 def category_summary(request):
-    return render(request, 'category_summary.html', {})
+    categories = Category.objects.all()
+    return render(request, 'category_summary.html', {"categories":categories})
 
 def category(request, filler):
     # Hyphens substituted with empty spaces
