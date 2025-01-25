@@ -27,7 +27,7 @@ class Cart():
         if product_id in self.cart:
             pass
         else:
-            self.cart[product_id] = {'price': str(product.price)}
+            #self.cart[product_id] = {'price': str(product.price)}
             self.cart[product_id] = int(product_quantity)
         # Mark the session as modified to ensure changes to the cart are saved
         self.session.modified = True
@@ -38,3 +38,7 @@ class Cart():
         # Use ids to check product in the db model
         products = Product.objects.filter(id__in=product_ids)
         return products
+
+    def get_quantities(self):
+        quantities = self.cart
+        return quantities

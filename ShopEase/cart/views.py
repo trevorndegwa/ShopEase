@@ -28,7 +28,9 @@ def cart_update(request):
     pass
 
 def cart_summary(request):
+    # Acquire the cart
     cart = Cart(request)
     cart_products = cart.get_products
-    return render(request, "cart_summary.html", {"cart_products": cart_products})
+    quantities = cart.get_quantities
+    return render(request, "cart_summary.html", {"cart_products":cart_products, "quantities":quantities})
 
