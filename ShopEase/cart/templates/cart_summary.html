@@ -49,7 +49,7 @@
 				<div class="row justify-content-center">
 				    <div class="col-md-2">Quantity:</div>
 				    <div class="col-md-2">
-				    <select class="form-select" id="cart-qty">
+				    <select class="form-select" id="select{{product.id}}">
 				       {% for key, value in quantities.items %}
 				           {% if key == product.id|slugify %}
 					        <option selected>{{ value }}</option>
@@ -82,3 +82,36 @@
         </div> 
 <br/><br/><br/><br/><br/><br/><br/>
 {% endblock %}
+
+<script>
+$(document).on('click', '.update-cart', function(e){
+    // Prevent the default action from occuring
+    e.preventDefault();
+    // Get the product ID
+    var productID = $(this).data('index');
+
+    // Make an AJAX POST request to the server
+    $.ajax({
+       type: 'POST',
+       url: '{% url 'cart_update' %}',
+       data: {
+           product_id: $(this).data('index'),
+           product_quantity: $('#select' + productID + 'option:selected').text(),
+           csrfmiddlewaretoken: '{{ csrf_token }}',
+           action: 'post'
+       },
+       // Callback function to handle a successful response
+       success: function(json){
+           location.reload();      
+       },
+       // Callback function to handle errors if the request fails
+       error: function(xhr, errmsg, err){
+
+       }
+
+    });
+
+
+})
+
+</script>
