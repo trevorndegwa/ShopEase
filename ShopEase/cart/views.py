@@ -22,7 +22,14 @@ def cart_add(request):
         return response
 
 def cart_delete(request):
-    pass
+    cart = Cart(request)
+    if request.POST.get('action') == 'post':
+        # Get the sent data
+        product_id = int(request.POST.get('product_id'))
+        # Call delete fxn within the cart
+        cart.delete(product=product_id)
+        response = JsonResponse({'product':product_id})
+        return response
 
 def cart_update(request):
     cart = Cart(request)

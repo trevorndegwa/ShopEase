@@ -53,6 +53,16 @@ class Cart():
         check = self.cart
         return check
 
+    def delete(self, product):
+        """
+        Delete product from the cart
+        """
+        product_id = str(product)
+        # Remove from the cart/dictionary
+        if product_id in self.cart:
+            del self.cart[product_id]
+        self.session.modified = True
+
     def get_products(self):
         # Get the product ids from cart
         product_ids = self.cart.keys()
