@@ -13,6 +13,9 @@ def product(request,pk):
     product = Product.objects.get(id=pk)
     return render(request, 'product.html', {'product':product})
 
+def category_summary(request):
+    return render(request, 'category_summary.html', {})
+
 def category(request, filler):
     # Hyphens substituted with empty spaces
     filler = filler.replace('-', ' ')
