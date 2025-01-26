@@ -1,20 +1,22 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
-
 class ShippingAddress(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    names = models.CharField(max_length=250)
+    email = models.EmailField(max_length=250) 
+    address1 = models.CharField(max_length=250)
+    address2 = models.CharField(max_length=250, null=True, blank=True)
+    country = models.CharField(max_length=250, default="United States")
+    county = models.CharField(max_length=250, null=True, blank=True)
+    city = models.CharField(max_length=250)
+    postalcode = models.CharField(max_length=250, null=True, blank=True)
 
-    fullname_shipping = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Full name'}), required=True)
-    email_shipping = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email Address'}), required=True)
-    address1_shipping = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Address 1'}), required=True)
-    address2_shipping = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Address 2'}), required=True)
-    country_shipping = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Country'}), required=True)
-    county_shipping = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'County'}), required=False)
-    city_shipping = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'City'}), required=True)
-    postalcode_shipping = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Postal Code'}), required=False)
-
+    # Admin backend don't pluralise "Shipping Address"
     class Meta:
-        model = ShippingAddress
-        fields = ['fullname_shipping', 'email_shipping', 'address1_shipping', 'address2_shipping', 'country_shipping', 'county_shipping', 'city_shipping', 'postalcode_shipping']
-        exclude = ['user',]
+        verbose_name_plural = "Shipping Address"
+        ordering = ['names']  # Order by names
+
+    def __str__(self):
+        return f'{self.names} - {self.address1}, {self.city}'
+
