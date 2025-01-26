@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from cart.cart import Cart
+from django.contrib.auth.models import User
 from payment.forms import ShippingForm, PaymentForm
-from payment.models import ShippingAddress
+from payment.models import ShippingAddress, Order, OrderItem
 from django.contrib import messages
 
 def payment_successful(request):
@@ -9,19 +10,40 @@ def payment_successful(request):
 
 def order_process(request):
     if request.POST:
+        cart = Cart(request)
+        cart_products = cart.get_products
+        quantities = cart.get_quantities
+        sums = cart.cart_total()
+
         # Get billing stuff from prev page
         payment_form = PaymentForm(request.POST or None)
         # Get data for Shipping session
         me_shipping = request.session.get('me_shipping')
         
+        full_name = me_shipping['fullname_shipping']
+        email = me_shipping['email_shipping']
+         
         # Use shipping info to make Shipping Address
         shipping_address = f"{me_shipping['address1_shipping']}\n{me_shipping['address2_shipping']}\n{me_shipping['city_shipping']}\n{me_shipping['county_shipping']}\n{me_shipping['postalcode_shipping']}\n{me_shipping['country_shipping']}"
-        print(shipping_address)
+        amount_paid = sums
+  
+        # Make an order
+        if request.user.is_authenticated:
+            # Logged in
+            user = request.user
+            # Make the order
+            order_create = Order(user=user, full_name=full_name, email=email, shipping_address=shipping_address, amount_paid=amount_paid)
+            order_create.save()
+            messages.success(request, "Order sent!")
+            return redirect('home')
 
+        else:
+            # Not logged in but create the order
+            order_create = Order(full_name=full_name, email=email, shipping_address=shipping_address, amount_paid=amount_paid)
+            order_create.save()
 
-
-        messages.success(request, "Order sent!")
-        return redirect('home')
+            messages.success(request, "Order sent!")
+            return redirect('home')
 
     else:
         messages.success(request, "Access denied!")
