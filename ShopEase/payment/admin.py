@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import ShippingAddress
 
-# Register your models here.
+# On the admin site, register the model
+admin.site.register(ShippingAddress)
