@@ -147,3 +147,6 @@ def update_info(request):
 
     # Render the profile update page with the form
     return render(request, "update_info.html", {"user_form": user_form})
+
+def search(request):
+    return render(request, "search.html", {})
