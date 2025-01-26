@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from .forms import SignUpForm, UserUpdateForm
+from .forms import SignUpForm, UserUpdateForm, PasswordChangeForm
 from django import forms
 from django.contrib.auth.decorators import login_required
 
@@ -106,5 +106,15 @@ def update_user(request):
     # Render the profile update page with the form
     return render(request, "update_user.html", {"user_form": user_form})
 
+# Defines 'update_password' to take in password changes
 def update_password(request):
-    return render(request, "update_password.html", {})
+    if request.use.is_authenticated:
+        current_user = request.user
+        
+        if request.method == "POST":
+            pass
+        else:
+            form = PasswordChangeForm(current_user)    
+            return render(request, "update_password.html", {'form':form})
+    else:
+        messages.success(request, "You must be logged in to view page!")
