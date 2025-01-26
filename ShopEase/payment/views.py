@@ -13,7 +13,13 @@ def order_process(request):
         payment_form = PaymentForm(request.POST or None)
         # Get data for Shipping session
         me_shipping = request.session.get('me_shipping')
-        print(me_shipping)
+        
+        # Use shipping info to make Shipping Address
+        shipping_address = f"{me_shipping['address1_shipping']}\n{me_shipping['address2_shipping']}\n{me_shipping['city_shipping']}\n{me_shipping['county_shipping']}\n{me_shipping['postalcode_shipping']}\n{me_shipping['country_shipping']}"
+        print(shipping_address)
+
+
+
         messages.success(request, "Order sent!")
         return redirect('home')
 
