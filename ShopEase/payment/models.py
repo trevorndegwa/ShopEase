@@ -22,7 +22,6 @@ class ShippingAddress(models.Model):
         return f'{self.names} - {self.address1}, {self.city}'
 # Create Order model
 class Order(models.Model):
-class Order(models.Model):
     # Foreign Key to User model (on_delete handles what happens when a user is deleted)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
@@ -34,7 +33,7 @@ class Order(models.Model):
     shipping_address = models.TextField(max_length=14000)
 
     # Amount paid (ensure you handle currency appropriately)
-    amount_paid = models.DecimalField(max_digits=7, decimal_places=2)
+    amount_paid = models.DecimalField(max_digits=8, decimal_places=2)
 
     # Dates related to the order (auto_now_add will add the date when the order is created)
     date_ordered = models.DateTimeField(auto_now_add=True)
@@ -46,6 +45,16 @@ class Order(models.Model):
         return f'Order {self.id} - {self.full_name}'
 
 # Create model for Order Items
+class OrderItem(models.Model):
+    # Foreign Keys for relationships to Order, Product, and User models
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
+    # Quantity and price information for each order item
+    quantity = models.PositiveBigIntegerField(default=1)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
 
-
+    def __str__(self):
+        # Return a more descriptive string representation using product name and order ID
+        return f'Order Item {self.id} - {self.product.name} (x{self.quantity})'
