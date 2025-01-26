@@ -149,4 +149,12 @@ def update_info(request):
     return render(request, "update_info.html", {"user_form": user_form})
 
 def search(request):
-    return render(request, "search.html", {})
+    # Check if the user filled the form
+    if request.method == "POST":
+        asked = request.POST['asked']
+        # Querying the DB model of Product
+        asked = Product.objects.filter(name__icontains=asked)
+    
+        return render(request, "search.html", {'asked':asked})
+    else:
+        return render(request, "search.html", {})
