@@ -88,6 +88,16 @@ class Cart():
         # Mark the session as modified to ensure changes are saved
         self.session.modified = True
 
+        # Dealing with users who're logged in
+        if self.request.user.is_authenticated:
+            # Get current user profile
+            current_user = Profile.objects.filter(user__id=self.request.user.id)
+            # Convert the single quote string into double for JSON reasons
+            cart_double = str(self.cart)
+            cart_double = cart_double.replace("\'", "\"")
+            # Save cart_double to the Profile model
+            current_user.update(prev_cart=str(cart_double))
+
         check = self.cart
         return check
 
@@ -100,6 +110,16 @@ class Cart():
         if product_id in self.cart:
             del self.cart[product_id]
         self.session.modified = True
+
+        # Dealing with users who're logged in
+        if self.request.user.is_authenticated:
+            # Get current user profile
+            current_user = Profile.objects.filter(user__id=self.request.user.id)
+            # Convert the single quote string into double for JSON reasons
+            cart_double = str(self.cart)
+            cart_double = cart_double.replace("\'", "\"")
+            # Save cart_double to the Profile model
+            current_user.update(prev_cart=str(cart_double))
 
     def get_products(self):
         # Get the product ids from cart
