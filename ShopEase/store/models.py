@@ -26,6 +26,7 @@ class Profile(models.Model):
     city = models.CharField(max_length=50, blank=True)
     postalcode = models.CharField(max_length=50, blank=True)
     country = models.CharField(max_length=50, blank=True)
+    prev_cart = models.CharField(max_length=250, blank=True, null=True) # Convert cart to string (later back to dict)
 
     def __str__(self):
         return self.user.username
