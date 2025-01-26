@@ -108,7 +108,7 @@ def update_user(request):
 
 # Defines 'update_password' to take in password changes
 def update_password(request):
-    if request.use.is_authenticated:
+    if request.user.is_authenticated:
         current_user = request.user
         
         if request.method == "POST":
