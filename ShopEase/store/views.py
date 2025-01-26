@@ -7,6 +7,7 @@ from django.contrib import messages
 from .forms import SignUpForm, UserUpdateForm, PasswordChangeForm, UserInfoForm
 from django import forms
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 
 # Define the 'product' view to display details of a specific product
@@ -153,7 +154,7 @@ def search(request):
     if request.method == "POST":
         asked = request.POST['asked']
         # Querying the DB model of Product
-        asked = Product.objects.filter(name__icontains=asked)
+        asked = Product.objects.filter(Q(name__icontains=asked) | Q(description__icontains=asked))
         # Don't find when searching
         if not asked:
             messages.success(request, "That product is unavailable. Please try again") 
