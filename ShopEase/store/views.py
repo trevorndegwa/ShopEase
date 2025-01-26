@@ -6,9 +6,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from .forms import SignUpForm, UserUpdateForm, PasswordChangeForm, UserInfoForm
 from django import forms
+from cart.cart import Cart
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-
+import json
 
 # Define the 'product' view to display details of a specific product
 def product(request,pk):
@@ -73,6 +74,21 @@ def login_user(request):
         # If authentication is successful, log the user in
         if user is not None:
             login(request, user)
+            
+            # Get the current user 
+            current_user = Profile.objects.get(user__id=request.user.id)
+            # Retrieve saved cart from DB
+            saved_cart = current_user.prev_cart
+            # Convert string to python dictionary
+            if saved_cart:
+                # Using JSON, convert to dictionary
+                json_cart = json.loads(saved_cart)
+                # Added loaded dictionary to session
+                cart = Cart(request)
+                # Go through and add items in the cart
+                for key,value in json_cart.items():
+                    cart.add_db(product=key, quantity=value)
+
             messages.success(request, ("You've been logged in"))
             return redirect('home')
         else:

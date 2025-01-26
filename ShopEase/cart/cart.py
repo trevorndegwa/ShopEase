@@ -48,6 +48,32 @@ class Cart():
             # Save cart_double to the Profile model
             current_user.update(prev_cart=str(cart_double))
 
+    def add_db(self, product, quantity)
+        """
+        Convert the product ID and qty to strings to use them
+        """
+        product_id = str(product.id)
+        product_quantity = str(quantity)
+    
+        # Control logic checking if product exists within the cart
+        if product_id in self.cart:
+            pass
+        else:
+            #self.cart[product_id] = {'price': str(product.price)}
+            self.cart[product_id] = int(product_quantity)
+        # Mark the session as modified to ensure changes to the cart are saved
+        self.session.modified = True
+        
+        # Dealing with users who're logged in
+        if self.request.user.is_authenticated:
+            # Get current user profile
+            current_user = Profile.objects.filter(user__id=self.request.user.id)
+            # Convert the single quote string into double for JSON reasons
+            cart_double = str(self.cart)
+            cart_double = cart_double.replace("\'", "\"")
+            # Save cart_double to the Profile model
+            current_user.update(prev_cart=str(cart_double))
+
     def update(self, product, quantity):
         """
         Update the quantity of a specific product in the cart
