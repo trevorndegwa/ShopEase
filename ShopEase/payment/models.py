@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from store.models import Product
+from django.db.models.signals import post_save
 
 class ShippingAddress(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -20,6 +21,14 @@ class ShippingAddress(models.Model):
 
     def __str__(self):
         return f'{self.names} - {self.address1}, {self.city}'
+
+# Create a user shipping address
+def create_shipping(sender, instance, created, **kwargs):
+    if created:
+        user_shipping = ShippingAddress(user=instance)
+        user_shipping.save()
+post_save.connect(create_shipping, sender=User)
+
 # Create Order model
 class Order(models.Model):
     # Foreign Key to User model (on_delete handles what happens when a user is deleted)
