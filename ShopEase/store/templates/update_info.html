@@ -1,0 +1,35 @@
+{% extends 'foundation.html' %}
+{% block content %}
+
+<!-- Header-->
+        <header style="background-color: #004d00; color: #C0C0C0;" class="py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center">
+                    <h1 class="display-4 fw-bolder">Update info</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Update user information</p>
+                </div>
+            </div>
+        </header>
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-6 offset-md-3">
+
+                        <br/><br/>
+
+<form method="POST" action="{% url 'update_info' %}">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+    <!-- Renders the form fields as paragraph elements (<p>) -->
+    <br/><br/>
+    <button type="submit" class="btn btn-secondary">Update profile</button>
+</form>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+                    </div>
+            </div>
+        </div>
+
+{% endblock %}

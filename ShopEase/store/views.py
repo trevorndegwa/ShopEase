@@ -128,3 +128,7 @@ def update_password(request):
         return render(request, "update_password.html", {'form':form})
     else:
         messages.success(request, "You must be logged in to view page!")
+
+# Defines 'update_info' for extending user profile on app
+def update_info(request):
+    pass
