@@ -130,5 +130,20 @@ def update_password(request):
         messages.success(request, "You must be logged in to view page!")
 
 # Defines 'update_info' for extending user profile on app
+@login_required
 def update_info(request):
-    pass
+
+    # Retrieve the current user instance
+    current_user = get_object_or_404(Profile, user__id=request.user.id)
+
+    # Populate the form with POST data or existing user data
+    user_form = UserInfoForm(data=request.POST or None, instance=current_user)
+
+    # Process form submission
+    if request.method == "POST" and user_form.is_valid():
+        user_form.save()
+        messages.success(request, "Your info has been updated successfully!")
+        return redirect('home')
+
+    # Render the profile update page with the form
+    return render(request, "update_info.html", {"user_form": user_form})
