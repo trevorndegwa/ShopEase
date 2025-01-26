@@ -34,19 +34,20 @@
                     {% if key == product.id|slugify %}
                         {{ value }}
                     {% endif %}
-                {% endfor %}</small>
+                {% endfor %}
+                </small>
                 <br/><br/>
 
             {% endfor %}
-            Total:  ${{ totals }}
+            Total:  KES{{ sums }}
             <br/><br/>
-            <a href="{% url 'cart_summary' %}" class="btn btn-sm btn-outline-secondary">Update Items</a>
+            <a href="{% url 'cart_summary' %}" class="btn btn-sm btn-outline-secondary">Update items</a>
           </div>
         </div>
 <br/><br/>
 <div class="card">
   <div class="card-header">
-    Shipping Info
+    Shipping information
   </div>
   <div class="card-body">
     <form method="POST" action="{% url 'billing_info' %}">
@@ -58,7 +59,7 @@
 <br/>
 
 <button type="submit" class="btn btn-secondary">
-        Continue To Billing
+        Proceed to billing
 </button>
 
 </form>
