@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Product, Category
+from .models import Profile, Product, Category
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from .forms import SignUpForm, UserUpdateForm, PasswordChangeForm
+from .forms import SignUpForm, UserUpdateForm, PasswordChangeForm, UserInfoForm
 from django import forms
 from django.contrib.auth.decorators import login_required
 
