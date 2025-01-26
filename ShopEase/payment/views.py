@@ -7,6 +7,20 @@ from django.contrib import messages
 def payment_successful(request):
     return render(request, "payment/payment_successful.html", {})
 
+def order_process(request):
+    if request.POST:
+        # Get billing stuff from prev page
+        payment_form = PaymentForm(request.POST or None)
+        # Get data for Shipping session
+        me_shipping = request.session.get('me_shipping')
+        print(me_shipping)
+        messages.success(request, "Order sent!")
+        return redirect('home')
+
+    else:
+        messages.success(request, "Access denied!")
+        return redirect('home')
+
 def billing_info(request):
     if request.POST:
         # Acquire the cart
@@ -14,6 +28,10 @@ def billing_info(request):
         cart_products = cart.get_products
         quantities = cart.get_quantities
         sums = cart.cart_total()
+
+        # Create a sesh with Shipping information
+        me_shipping = request.POST
+        request.session['me_shipping'] = me_shipping
 
         # Check is the user is logged in
         if request.user.is_authenticated:
