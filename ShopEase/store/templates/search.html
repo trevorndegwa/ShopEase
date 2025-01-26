@@ -31,8 +31,9 @@
 </div>
 <br/>
 {% if asked %}
-
-{{ asked }}
+    {% for product in asked %}
+        {{ product }}<br/>
+    {% endfor %}
 
 {% endif %}
 <br/><br/><br/><br/><br/><br/>

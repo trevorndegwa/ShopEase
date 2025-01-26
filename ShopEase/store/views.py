@@ -154,7 +154,11 @@ def search(request):
         asked = request.POST['asked']
         # Querying the DB model of Product
         asked = Product.objects.filter(name__icontains=asked)
-    
-        return render(request, "search.html", {'asked':asked})
+        # Don't find when searching
+        if not asked:
+            messages.success(request, "That product is unavailable. Please try again") 
+            return render(request, "search.html", {})
+        else:
+            return render(request, "search.html", {'asked':asked})
     else:
         return render(request, "search.html", {})
