@@ -13,10 +13,12 @@ def product(request,pk):
     product = Product.objects.get(id=pk)
     return render(request, 'product.html', {'product':product})
 
+# Defines the view for products  in the cart
 def category_summary(request):
     categories = Category.objects.all()
     return render(request, 'category_summary.html', {"categories":categories})
 
+# Showcases the 'category' view to house product types 
 def category(request, filler):
     # Hyphens substituted with empty spaces
     filler = filler.replace('-', ' ')
@@ -83,3 +85,7 @@ def logout_user(request):
     logout(request)
     messages.success(request, ("You've been logged out"))
     return redirect('home')
+
+# Defines 'update_user' to take in profile updates from user
+def update_user(request):
+    return render(request, 'update_user.html', {})
