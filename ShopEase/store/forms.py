@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 class SignUpForm(UserCreationForm):
         # Define an email field with a custom widget and placeholder
@@ -37,3 +37,28 @@ class SignUpForm(UserCreationForm):
                 self.fields['password2'].widget.attrs['placeholder'] = 'Confirm Password'
                 self.fields['password2'].label = ''
                 self.fields['password2'].help_text = '<span class="form-text text-muted"><small>Enter the same password as before, for verification.</small></span>'
+
+class UserUpdateForm(UserChangeForm):
+        # Define an email field with a custom widget and placeholder
+        email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email Address'}))
+        # Define a first name field with a custom widget and placeholder
+        first_name = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'First Name'}))
+        # Define a last name field with a custom widget and placeholder
+        last_name = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Last Name'}))
+
+        class Meta:
+                # Specifies the User model to be used for the form and links it 
+                model = User
+                fields = ('username', 'first_name', 'last_name', 'email')
+
+# Initialise the form and customise widgets, placeholders, and help text
+        def __init__(self, *args, **kwargs):
+                # Call the parent class's constructor to ensure proper initialisation
+                super(SignUpForm, self).__init__(*args, **kwargs)
+                
+                # Customise the username field
+                self.fields['username'].widget.attrs['class'] = 'form-control'
+                self.fields['username'].widget.attrs['placeholder'] = 'User Name'
+                self.fields['username'].label = ''
+                self.fields['username'].help_text = '<span class="form-text text-muted"><small>Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</small></span>'
+
