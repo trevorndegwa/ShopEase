@@ -115,12 +115,13 @@ def update_password(request):
             form = PasswordChangeForm(current_user, request.POST)
             if form.is_valid():
                 form.save()
-                messages.success(request, "Password updated. Please log in again")
-                #login(request, current_user)
-                return redirect('login')
+                messages.success(request, "Password updated")
+                login(request, current_user)
+                return redirect('update_user')
             else:
                 for error in list(form.errors.values()):
                     messages.error(request, error)
+                    return redirect('update_password')
         else:
             form = PasswordChangeForm(current_user)   
  
