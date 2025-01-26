@@ -1,3 +1,4 @@
 from django.shortcuts import render
 
-# Create your views here.
+def payment_successful(request):
+    return render(request, "payment/payment_successful.html", {})
