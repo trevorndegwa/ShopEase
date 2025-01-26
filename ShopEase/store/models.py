@@ -27,7 +27,7 @@ class Profile(models.Model):
     postalcode = models.CharField(max_length=50, blank=True)
     country = models.CharField(max_length=50, blank=True)
 
-    def __str__self(self):
+    def __str__(self):
         return self.user.username
 
 # Create a user's profile by default on registration
