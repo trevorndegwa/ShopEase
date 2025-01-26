@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Product, Category
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from .forms import SignUpForm
+from .forms import SignUpForm, UserUpdateForm
 from django import forms
+from django.contrib.auth.decorators import login_required
 
 
 # Define the 'product' view to display details of a specific product
@@ -87,5 +88,23 @@ def logout_user(request):
     return redirect('home')
 
 # Defines 'update_user' to take in profile updates from user
+@login_required
 def update_user(request):
-    return render(request, 'update_user.html', {})
+    # Retrieve the current user instance
+    current_user = get_object_or_404(User, id=request.user.id)
+
+    # Populate the form with POST data or existing user data
+    user_form = UserUpdateForm(data=request.POST or None, instance=current_user)
+
+    # Process form submission
+    if request.method == "POST" and user_form.is_valid():
+        user_form.save()
+        login(request, current_user)  # Re-authenticate user
+        messages.success(request, "Your profile has been updated successfully!")
+        return redirect('home')
+
+    # Render the profile update page with the form
+    return render(request, "update_user.html", {"user_form": user_form})
+
+def update_password(request):
+    return render(request, "update_password.html", {})

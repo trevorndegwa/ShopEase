@@ -39,6 +39,8 @@ class SignUpForm(UserCreationForm):
                 self.fields['password2'].help_text = '<span class="form-text text-muted"><small>Enter the same password as before, for verification.</small></span>'
 
 class UserUpdateForm(UserChangeForm):
+        # Hide password stuff
+        password = None
         # Define an email field with a custom widget and placeholder
         email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email Address'}))
         # Define a first name field with a custom widget and placeholder
@@ -54,7 +56,7 @@ class UserUpdateForm(UserChangeForm):
 # Initialise the form and customise widgets, placeholders, and help text
         def __init__(self, *args, **kwargs):
                 # Call the parent class's constructor to ensure proper initialisation
-                super(SignUpForm, self).__init__(*args, **kwargs)
+                super(UserUpdateForm, self).__init__(*args, **kwargs)
                 
                 # Customise the username field
                 self.fields['username'].widget.attrs['class'] = 'form-control'
