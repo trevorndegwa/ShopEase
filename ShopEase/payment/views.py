@@ -29,5 +29,6 @@ def checkout(request):
         return render(request, "payment/checkout.html", {
             "cart_products": cart_products, 
 	    "quantities": quantities, 
-	    "sums": sums
+	    "sums": sums,
+            "shipping_form": shipping_form
     })
