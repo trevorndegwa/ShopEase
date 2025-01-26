@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from .forms import SignUpForm, UserUpdateForm, PasswordChangeForm, UserInfoForm
+from payment.models import ShippingAddress
+from payment.forms import ShippingForm
 from django import forms
 from cart.cart import Cart
 from django.contrib.auth.decorators import login_required
@@ -149,21 +151,31 @@ def update_password(request):
 # Defines 'update_info' for extending user profile on app
 @login_required
 def update_info(request):
+    if request.user.is_authenticated:
+        # Get current user profile
+        current_user = Profile.objects.get(user__id=request.user.id)
+        # Get current user's shipping info
+        shipping_user = ShippingAddress.objects.get(user__id=request.user.id)
 
-    # Retrieve the current user instance
-    current_user = get_object_or_404(Profile, user__id=request.user.id)
+        # Initialise user form with existing data or POST data
+        user_form = UserInfoForm(request.POST or None, instance=current_user)
+        # Initialize shipping form with existing data or POST data
+        shipping_form = ShippingForm(request.POST or None, instance=shipping_user)
 
-    # Populate the form with POST data or existing user data
-    user_form = UserInfoForm(data=request.POST or None, instance=current_user)
+        # If either form is valid, save both forms
+        if user_form.is_valid() or shipping_form.is_valid():
+            user_form.save()  # Save the user info form
+            shipping_form.save()  # Save the shipping info form
 
-    # Process form submission
-    if request.method == "POST" and user_form.is_valid():
-        user_form.save()
-        messages.success(request, "Your info has been updated successfully!")
+            messages.success(request, "Your Info Has Been Updated!!")
+            return redirect('home')
+
+        # Render the page with forms (including errors if forms are invalid)
+        return render(request, "update_info.html", {'user_form': user_form, 'shipping_form': shipping_form})
+
+    else:
+        messages.success(request, "You Must Be Logged In To Access That Page!!")
         return redirect('home')
-
-    # Render the profile update page with the form
-    return render(request, "update_info.html", {"user_form": user_form})
 
 def search(request):
     # Check if the user filled the form
