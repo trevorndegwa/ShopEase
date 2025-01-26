@@ -48,11 +48,11 @@ class Cart():
             # Save cart_double to the Profile model
             current_user.update(prev_cart=str(cart_double))
 
-    def add_db(self, product, quantity)
+    def add_db(self, product, quantity):
         """
         Convert the product ID and qty to strings to use them
         """
-        product_id = str(product.id)
+        product_id = str(product)
         product_quantity = str(quantity)
     
         # Control logic checking if product exists within the cart
