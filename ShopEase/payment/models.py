@@ -9,7 +9,7 @@ class ShippingAddress(models.Model):
     email = models.EmailField(max_length=250) 
     address1 = models.CharField(max_length=250)
     address2 = models.CharField(max_length=250, null=True, blank=True)
-    country = models.CharField(max_length=250, default="United States")
+    country = models.CharField(max_length=250, default="Kenya")
     county = models.CharField(max_length=250, null=True, blank=True)
     city = models.CharField(max_length=250)
     postalcode = models.CharField(max_length=250, null=True, blank=True)
