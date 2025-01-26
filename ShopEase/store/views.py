@@ -112,9 +112,18 @@ def update_password(request):
         current_user = request.user
         
         if request.method == "POST":
-            pass
+            form = PasswordChangeForm(current_user, request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Password updated. Please log in again")
+                #login(request, current_user)
+                return redirect('login')
+            else:
+                for error in list(form.errors.values()):
+                    messages.error(request, error)
         else:
-            form = PasswordChangeForm(current_user)    
-            return render(request, "update_password.html", {'form':form})
+            form = PasswordChangeForm(current_user)   
+ 
+        return render(request, "update_password.html", {'form':form})
     else:
         messages.success(request, "You must be logged in to view page!")
