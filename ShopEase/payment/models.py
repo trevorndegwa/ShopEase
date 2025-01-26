@@ -1,22 +1,20 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
+
 class ShippingAddress(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    fullname_shipping = models.CharField(max_length=250)
-    email_shipping = models.EmailField(max_length=250)
-    address1_shipping = models.CharField(max_length=250)
-    address2_shipping = models.CharField(max_length=250, null=True, blank=True)
-    country_shipping = models.CharField(max_length=250, default="Kenya")
-    county_shipping = models.CharField(max_length=250, null=True, blank=True)
-    city_shipping = models.CharField(max_length=250)
-    postalcode_shipping = models.CharField(max_length=250, null=True, blank=True)
 
-    # Admin backend don't pluralise "Shipping Address"
+    fullname_shipping = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Full name'}), required=True)
+    email_shipping = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email Address'}), required=True)
+    address1_shipping = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Address 1'}), required=True)
+    address2_shipping = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Address 2'}), required=True)
+    country_shipping = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Country'}), required=True)
+    county_shipping = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'County'}), required=False)
+    city_shipping = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'City'}), required=True)
+    postalcode_shipping = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Postal Code'}), required=False)
+
     class Meta:
-        verbose_name_plural = "Shipping Address"
-        ordering = ['fullname_shipping']  # Order by names
-
-    def __str__(self):
-        return f'{self.fullname_shipping} - {self.address1_shipping}, {self.city_shipping}'
-
+        model = ShippingAddress
+        fields = ['fullname_shipping', 'email_shipping', 'address1_shipping', 'address2_shipping', 'country_shipping', 'county_shipping', 'city_shipping', 'postalcode_shipping']
+        exclude = ['user',]
