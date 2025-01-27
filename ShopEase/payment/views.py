@@ -195,4 +195,12 @@ def checkout(request):
         })
 
 def orders(request):
-    pass
+    if request.user.is_authenticated and request.user.is_superuser:
+        # Retrieve the order
+        order = Order.objects.get(id=pk)
+        # Retrieve the order items
+        items = OrderItem.objects.filter(order=pk)
+        return render(request, 'payment/orders.html', {"order":order, "items":items})
+    else:
+        messages.success(request, "Access is denied")
+        return redirect('home')
