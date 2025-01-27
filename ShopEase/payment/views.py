@@ -6,6 +6,11 @@ from payment.forms import ShippingForm, PaymentForm
 from payment.models import ShippingAddress, Order, OrderItem
 from django.contrib import messages
 
+def dash_shipped(request):
+    pass
+def dash_not_shipped(request):
+    pass
+
 def payment_successful(request):
     return render(request, "payment/payment_successful.html", {})
 

@@ -1,11 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 from store.models import Product
-from django.db.models.signals import post_save
+import datetime
+from django.db.models.signals import post_save, pre_save
+from django.dispatch import receiver
 
 class ShippingAddress(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    names = models.CharField(max_length=250)
+    full_name = models.CharField(max_length=250)
     email = models.EmailField(max_length=250) 
     address1 = models.CharField(max_length=250)
     address2 = models.CharField(max_length=250, null=True, blank=True)
@@ -17,10 +19,10 @@ class ShippingAddress(models.Model):
     # Admin backend don't pluralise "Shipping Address"
     class Meta:
         verbose_name_plural = "Shipping Address"
-        ordering = ['names']  # Order by names
+        ordering = ['full_name']  # Order by names
 
     def __str__(self):
-        return f'{self.names} - {self.address1}, {self.city}'
+        return f'{self.full_name} - {self.address1}, {self.city}'
 
 # Create a user shipping address
 def create_shipping(sender, instance, created, **kwargs):
@@ -48,10 +50,19 @@ class Order(models.Model):
     date_ordered = models.DateTimeField(auto_now_add=True)
     shipped = models.BooleanField(default=False)
     date_shipped = models.DateTimeField(blank=True, null=True)
-
+    shipped = models.BooleanField(default=False)
     def __str__(self):
         # Use f-string formatting for cleaner string representation
         return f'Order {self.id} - {self.full_name}'
+
+# Add the shipping date
+@receiver(pre_save, sender=Order)
+def shipped_date_on_update(sender, instance, **kwargs):
+	if instance.pk:
+		now = datetime.datetime.now()
+		objct = sender._default_manager.get(pk=instance.pk)
+		if instance.shipped and not objct.shipped:
+			instance.date_shipped = now
 
 # Create model for Order Items
 class OrderItem(models.Model):
