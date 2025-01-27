@@ -194,3 +194,5 @@ def checkout(request):
             "shipping_form": shipping_form
         })
 
+def orders(request):
+    pass
