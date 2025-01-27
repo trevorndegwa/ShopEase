@@ -47,22 +47,21 @@
 <br/><br/>
 <div class="card">
   <div class="card-header">
-    Shipping information
+    Shipping Information
   </div>
   <div class="card-body">
     <form method="POST" action="{% url 'billing_info' %}">
-        {% csrf_token %}
-    {{ shipping_form.as_p }}
+      {% csrf_token %}
+      
+      <!-- Rendering the shipping form fields using 'as_p' for proper layout -->
+      {{ shipping_form.as_p }}
 
+      <button type="submit" class="btn btn-secondary">
+        Proceed to Billing
+      </button>
+    </form>
   </div>
 </div>
-<br/>
-
-<button type="submit" class="btn btn-secondary">
-        Proceed to billing
-</button>
-
-</form>
 <br/><br/>
 
 

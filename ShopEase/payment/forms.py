@@ -46,18 +46,7 @@ class ShippingForm(forms.ModelForm):
     class Meta:
         model = ShippingAddress
         fields = ['fullname_shipping', 'email_shipping', 'address1_shipping', 'address2_shipping', 'country_shipping', 'county_shipping', 'city_shipping', 'postalcode_shipping']
-
-    def __init__(self, *args, **kwargs):
-        super(ShippingForm, self).__init__(*args, **kwargs)
-        # Map custom field names to model fields
-        self.fields['fullname_shipping'].initial = self.instance.names
-        self.fields['email_shipping'].initial = self.instance.email
-        self.fields['address1_shipping'].initial = self.instance.address1
-        self.fields['address2_shipping'].initial = self.instance.address2
-        self.fields['country_shipping'].initial = self.instance.country
-        self.fields['county_shipping'].initial = self.instance.county
-        self.fields['city_shipping'].initial = self.instance.city
-        self.fields['postalcode_shipping'].initial = self.instance.postalcode
+        exclude = ['user',]
 
 class PaymentForm(forms.Form):
 	card_name =  forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Name On Card'}), required=True)
