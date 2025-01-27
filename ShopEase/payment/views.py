@@ -7,9 +7,19 @@ from payment.models import ShippingAddress, Order, OrderItem
 from django.contrib import messages
 
 def dash_shipped(request):
-    pass
+    if request.user.is_authenticated and request.user.is_superuser:
+        return render(request, "payment/dash_shipped.html", {})
+    else:
+        messages.success(request, "Access denied!")
+        return redirect('home')  
+  
 def dash_not_shipped(request):
-    pass
+    if request.user.is_authenticated and request.user.is_superuser:
+        return render(request, "payment/dash_not_shipped.html", {})
+    else:
+        messages.success(request, "Access denied!")
+        return redirect('home')    
+
 
 def payment_successful(request):
     return render(request, "payment/payment_successful.html", {})
